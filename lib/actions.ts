@@ -2,7 +2,6 @@
 
 import { revalidatePath } from "next/cache"
 import { createExpense, removeExpense } from "./expenses"
-import { toast } from "sonner"
 
 export async function addExpense(formData: FormData) {
   const data = Object.fromEntries(formData.entries())
@@ -10,7 +9,6 @@ export async function addExpense(formData: FormData) {
   const amount = parseFloat(data.amount as string)
 
   await createExpense({ title, amount })
-  // toast.success(`${title} added to your items!`)
   revalidatePath("/")
 }
 
