@@ -1,9 +1,11 @@
 import React from "react"
 import ExpenseItem, { ItemProps } from "./ExpenseItem"
 import { getExpenses } from "@/lib/expenses"
+import { auth } from "@clerk/nextjs/server"
 
 export default async function Expenses() {
-  const expenses: ItemProps[] = await getExpenses()
+  const { userId } = auth()
+  const expenses: ItemProps[] = await getExpenses(userId!)
 
   const getExpensesTotal = () => {
     return expenses.reduce((total, item) => total + item.amount, 0).toFixed(0)

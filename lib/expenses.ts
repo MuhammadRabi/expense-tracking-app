@@ -1,10 +1,18 @@
 import prisma from "./prisma"
 
-export async function getExpenses() {
-  return await prisma.item.findMany()
+export async function getExpenses(userId: string) {
+  return await prisma.item.findMany({
+    where: {
+      userId,
+    },
+  })
 }
 
-export async function createExpense(data: { title: string; amount: number }) {
+export async function createExpense(data: {
+  title: string
+  amount: number
+  userId: string
+}) {
   return await prisma.item.create({ data })
 }
 

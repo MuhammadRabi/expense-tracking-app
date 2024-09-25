@@ -4,6 +4,7 @@ import { addExpense } from "@/lib/actions"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import { useRef } from "react"
+import { useUser } from "@clerk/nextjs"
 
 function ExpensesForm() {
   const formRef = useRef<HTMLFormElement>(null)
@@ -12,6 +13,8 @@ function ExpensesForm() {
   if (formRef.current) {
     formRef.current.reset()
   }
+
+  const { isSignedIn } = useUser()
 
   return (
     <div className="flex-1">
@@ -41,6 +44,11 @@ function ExpensesForm() {
         <Button className="w-fit ml-auto capitalize bg-[#B0A695] dark:bg-slate-800 dark:text-white">
           add expense
         </Button>
+        {!isSignedIn && (
+          <p className="text-center text-xs capitalize bg-slate-200 rounded-md p-1.5">
+            please sign in to use the app
+          </p>
+        )}
       </form>
     </div>
   )
