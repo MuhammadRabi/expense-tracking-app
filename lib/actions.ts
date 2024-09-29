@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache"
 import { createExpense, removeExpense } from "./expenses"
-import { auth } from "@clerk/nextjs/server"
+import { auth, currentUser } from "@clerk/nextjs/server"
 import { createUser, findUser } from "./user"
 
 export async function addExpense(formData: FormData) {
@@ -11,13 +11,16 @@ export async function addExpense(formData: FormData) {
   const amount = parseFloat(data.amount as string)
 
   const { userId } = auth()
+  const user = await currentUser()
+  const email = user?.emailAddresses[0].emailAddress
+  console.log(email)
 
   if (userId) {
     const dbUser = await findUser(userId)
 
     // If user does not exist, save new one to db
     if (!dbUser) {
-      await createUser(userId)
+      await createUser(userId, email!)
     }
     // add user id
     await createExpense({ title, amount, userId })

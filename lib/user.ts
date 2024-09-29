@@ -8,10 +8,11 @@ export async function findUser(userId: string) {
   })
   return dbUser
 }
-export async function createUser(userId: string) {
+export async function createUser(userId: string, email: string) {
   await prisma.user.create({
     data: {
       id: userId,
+      email,
     },
   })
 }

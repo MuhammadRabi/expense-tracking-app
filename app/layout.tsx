@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import localFont from "next/font/local"
 import "./globals.css"
+import { Analytics } from "@vercel/analytics/react"
 import { Toaster } from "sonner"
 import {
   ClerkProvider,
@@ -45,7 +46,10 @@ export default function RootLayout({
               <UserButton />
             </SignedIn>
           </header>
-          <main>{children}</main>
+          <main>
+            {children}
+            <Analytics />
+          </main>
           <Toaster />
         </body>
       </html>
